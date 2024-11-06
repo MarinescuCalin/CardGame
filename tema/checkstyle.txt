@@ -1,0 +1,13 @@
+Starting audit...
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\game\Color.java:13:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\game\Color.java:14:5: '{' at column 5 should be on the previous line. [LeftCurly]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\game\Game.java:16:5: Class 'Game' looks like designed for extension (can be subclassed), but the method 'getPlayerDeck' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'Game' final or making the method 'getPlayerDeck' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\game\Game.java:16:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\game\Game.java:16:42: Parameter playerIdx should be final. [FinalParameters]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\game\Game.java:20:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\main\CommandRunner.java:20:5: Class 'CommandRunner' looks like designed for extension (can be subclassed), but the method 'executeAction' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'CommandRunner' final or making the method 'executeAction' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\main\CommandRunner.java:20:5: Missing a Javadoc comment. [MissingJavadocMethod]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\main\CommandRunner.java:20:37: Parameter actionsInput should be final. [FinalParameters]
+[ERROR] C:\Users\saita\Desktop\POO\tema\.\src\main\CommandRunner.java:39: Line is longer than 100 characters (found 105). [LineLength]
+Audit done.
+Checkstyle ends with 10 errors.
