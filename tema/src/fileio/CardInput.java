@@ -1,8 +1,12 @@
 package fileio;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-import game.Card;
+import card.Card;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import game.Color;
 
 import lombok.Getter;
@@ -80,6 +84,25 @@ public final class CardInput {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public ObjectNode toObjectNode(ObjectMapper objectMapper) {
+        ObjectNode result = objectMapper.createObjectNode();
+
+        result.put("mana", mana);
+        result.put("attackDamage", attackDamage);
+        result.put("health", health);
+        result.put("description", description);
+        result.put("name", name);
+
+        ArrayNode colorsArray = objectMapper.createArrayNode();
+        for (String color : colors) {
+            String lowerCase = color.toLowerCase();
+            colorsArray.add(lowerCase.substring(0, 1).toUpperCase() + lowerCase.substring(1));
+        }
+        result.set("colors", colorsArray);
+
+        return result;
     }
 
     @Override

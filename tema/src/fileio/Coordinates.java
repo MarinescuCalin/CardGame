@@ -1,34 +1,47 @@
 package fileio;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 public final class Coordinates {
-   private int x, y;
+    private int x, y;
 
-   public Coordinates() {
-   }
+    public Coordinates() {
+    }
 
-   public int getX() {
-      return x;
-   }
+    public int getX() {
+        return x;
+    }
 
-   public void setX(final int x) {
-      this.x = x;
-   }
+    public void setX(final int x) {
+        this.x = x;
+    }
 
-   public int getY() {
-      return y;
-   }
+    public int getY() {
+        return y;
+    }
 
-   public void setY(final int y) {
-      this.y = y;
-   }
+    public void setY(final int y) {
+        this.y = y;
+    }
 
-   @Override
-   public String toString() {
-      return "Coordinates{"
-              + "x="
-              + x
-              + ", y="
-              + y
-              + '}';
-   }
+    public ObjectNode toObjectNode(ObjectMapper objectMapper) {
+        ObjectNode result = objectMapper.createObjectNode();
+
+        result.put("x", x);
+        result.put("y", y);
+
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinates{"
+                + "x="
+                + x
+                + ", y="
+                + y
+                + '}';
+    }
 }

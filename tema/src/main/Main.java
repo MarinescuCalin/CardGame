@@ -6,10 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import checker.CheckerConstants;
-import fileio.ActionsInput;
-import fileio.DecksInput;
-import fileio.GameInput;
-import fileio.Input;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fileio.*;
 import game.Game;
 
 import java.io.File;
@@ -73,18 +71,28 @@ public final class Main {
         Input inputData = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePath1),
                 Input.class);
 
+        Game game = new Game();
+
         ArrayNode outputData = objectMapper.createArrayNode();
 
         DecksInput playerOneDecks = inputData.getPlayerOneDecks();
         DecksInput playerTwoDecks = inputData.getPlayerTwoDecks();
+
+        game.setPlayerDecks(1, playerOneDecks);
+        game.setPlayerDecks(2, playerTwoDecks);
+
         ArrayList<GameInput> gameInputs = inputData.getGames();
 
-        Game game = new Game();
         CommandRunner commandRunner = new CommandRunner(objectMapper, game);
 
         for (GameInput gameInput : gameInputs) {
+            game.startGame(gameInput.getStartGame());
+
             for (ActionsInput actionsInput : gameInput.getActions()) {
-                outputData.add(commandRunner.executeAction(actionsInput));
+                ObjectNode node = commandRunner.executeAction(actionsInput);
+                if (node != null) {
+                    outputData.add(node);
+                }
             }
         }
 
