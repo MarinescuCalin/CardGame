@@ -1,7 +1,6 @@
 package fileio;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public final class Coordinates {
@@ -26,7 +25,7 @@ public final class Coordinates {
         this.y = y;
     }
 
-    public ObjectNode toObjectNode(ObjectMapper objectMapper) {
+    public ObjectNode toObjectNode(final ObjectMapper objectMapper) {
         ObjectNode result = objectMapper.createObjectNode();
 
         result.put("x", x);

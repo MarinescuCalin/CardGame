@@ -13,8 +13,7 @@ public enum Color {
     YELLOW,
     WHITE;
 
-    public static Color fromString(final String color)
-    {
+    public static Color fromString(final String color) {
         return Color.valueOf(color.toUpperCase());
     }
 

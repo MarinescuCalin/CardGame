@@ -11,7 +11,7 @@ import game.Game;
 
 import java.util.ArrayList;
 
-public class CommandRunner {
+public final class CommandRunner {
     private Game game;
     private ObjectMapper objectMapper;
 
@@ -20,12 +20,15 @@ public class CommandRunner {
         this.game = game;
     }
 
-    public ObjectNode executeAction(ActionsInput actionsInput) {
+    public ObjectNode executeAction(final ActionsInput actionsInput) {
         return switch (actionsInput.getCommand()) {
-            case "cardUsesAbility" -> cardUsesAbility(actionsInput.getCardAttacker(), actionsInput.getCardAttacked());
-            case "cardUsesAttack" -> cardUsesAttack(actionsInput.getCardAttacker(), actionsInput.getCardAttacked());
+            case "cardUsesAbility" -> cardUsesAbility(actionsInput.getCardAttacker(),
+                    actionsInput.getCardAttacked());
+            case "cardUsesAttack" -> cardUsesAttack(actionsInput.getCardAttacker(),
+                    actionsInput.getCardAttacked());
             case "endPlayerTurn" -> endPlayerTurn();
-            case "getCardAtPosition" -> getCardAtPosition(actionsInput.getX(), actionsInput.getY());
+            case "getCardAtPosition" -> getCardAtPosition(actionsInput.getX(),
+                    actionsInput.getY());
             case "getCardsInHand" -> getCardsInHand(actionsInput.getPlayerIdx());
             case "getCardsOnTable" -> getCardsOnTable();
             case "getFrozenCardsOnTable" -> getFrozenCardsOnTable();
@@ -37,13 +40,15 @@ public class CommandRunner {
             case "getPlayerTurn" -> getPlayerTurn();
             case "getTotalGamesPlayed" -> getTotalGamesPlayed();
             case "placeCard" -> placeCard(actionsInput.getHandIdx());
-            case "useAttackHero" -> useAttackHero();
-            case "useHeroAbility" -> useHeroAbility();
-            default -> throw new IllegalStateException("Unexpected value: " + actionsInput.getCommand());
+            case "useAttackHero" -> useAttackHero(actionsInput.getCardAttacker());
+            case "useHeroAbility" -> useHeroAbility(actionsInput.getAffectedRow());
+            default -> throw new IllegalStateException("Unexpected value: "
+                    + actionsInput.getCommand());
         };
     }
 
-    private ObjectNode cardUsesAbility(final Coordinates cardAttacker, final Coordinates cardAttacked) {
+    private ObjectNode cardUsesAbility(final Coordinates cardAttacker,
+                                       final Coordinates cardAttacked) {
         String result = game.cardUsesAbility(cardAttacker, cardAttacked);
 
         if (result != null) {
@@ -51,7 +56,7 @@ public class CommandRunner {
 
             resultNode.set("cardAttacked", cardAttacked.toObjectNode(objectMapper));
             resultNode.set("cardAttacker", cardAttacker.toObjectNode(objectMapper));
-            resultNode.put("command", "cardUsesAttack");
+            resultNode.put("command", "cardUsesAbility");
             resultNode.put("error", result);
 
             return resultNode;
@@ -60,7 +65,8 @@ public class CommandRunner {
         return null;
     }
 
-    private ObjectNode cardUsesAttack(final Coordinates cardAttacker, final Coordinates cardAttacked) {
+    private ObjectNode cardUsesAttack(final Coordinates cardAttacker,
+                                      final Coordinates cardAttacked) {
         String result = game.cardUsesAttack(cardAttacker, cardAttacked);
 
         if (result != null) {
@@ -138,8 +144,13 @@ public class CommandRunner {
 
     private ObjectNode getFrozenCardsOnTable() {
         ObjectNode resultNode = objectMapper.createObjectNode();
-
         resultNode.put("command", "getFrozenCardsOnTable");
+
+        ArrayNode deckArray = resultNode.putArray("output");
+
+        for (Card card : game.getFrozenCardsOnTable()) {
+            deckArray.add(new CardInput(card).toObjectNode(objectMapper));
+        }
 
         return resultNode;
     }
@@ -165,7 +176,8 @@ public class CommandRunner {
         resultNode.put("command", "getPlayerHero");
         resultNode.put("playerIdx", playerIdx);
 
-        ObjectNode heroNode = new CardInput(game.getPlayerHero(playerIdx)).toObjectNode(objectMapper);
+        ObjectNode heroNode = new CardInput(game.getPlayerHero(playerIdx)).
+                toObjectNode(objectMapper);
         heroNode.remove("attackDamage");
 
         resultNode.set("output", heroNode);
@@ -187,6 +199,7 @@ public class CommandRunner {
         ObjectNode resultNode = objectMapper.createObjectNode();
 
         resultNode.put("command", "getPlayerOneWins");
+        resultNode.put("output", game.getPlayerOneWins());
 
         return resultNode;
     }
@@ -195,6 +208,7 @@ public class CommandRunner {
         ObjectNode resultNode = objectMapper.createObjectNode();
 
         resultNode.put("command", "getPlayerTwoWins");
+        resultNode.put("output", game.getPlayerTwoWins());
 
         return resultNode;
     }
@@ -212,6 +226,7 @@ public class CommandRunner {
         ObjectNode resultNode = objectMapper.createObjectNode();
 
         resultNode.put("command", "getTotalGamesPlayed");
+        resultNode.put("output", game.getTotalGamesPlayed());
 
         return resultNode;
     }
@@ -232,19 +247,38 @@ public class CommandRunner {
         return null;
     }
 
-    private ObjectNode useAttackHero() {
+    private ObjectNode useAttackHero(final Coordinates cardAttacker) {
         ObjectNode resultNode = objectMapper.createObjectNode();
 
-        resultNode.put("command", "useAttackHero");
+        String result = game.useAttackHero(cardAttacker);
+        if (result != null) {
+            if (result.contains("hero")) {
+                resultNode.put("gameEnded", result);
+                return resultNode;
+            }
 
-        return resultNode;
+            resultNode.put("command", "useAttackHero");
+            resultNode.set("cardAttacker", cardAttacker.toObjectNode(objectMapper));
+            resultNode.put("error", result);
+            return resultNode;
+        }
+
+        return null;
     }
 
-    private ObjectNode useHeroAbility() {
+    private ObjectNode useHeroAbility(final int affectedRow) {
         ObjectNode resultNode = objectMapper.createObjectNode();
 
-        resultNode.put("command", "useHeroAbility");
+        String result = game.useHeroAbility(affectedRow);
 
-        return resultNode;
+        if (result != null) {
+            resultNode.put("command", "useHeroAbility");
+            resultNode.put("affectedRow", affectedRow);
+            resultNode.put("error", result);
+
+            return resultNode;
+        }
+
+        return null;
     }
 }

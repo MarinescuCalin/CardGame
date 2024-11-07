@@ -1,4 +1,4 @@
-Implemented game start, place card, attack card and use card ability.
-Added invalid checks for place card, attack card and use card ability.
-Added a factory method in CardFactory which creates the cards; the hierarchy now consists
-of Card (abstract) -> Ability Card/HeroCard/MinionCard/TankCard.
+Implemented hero attacks and hero abilities.
+Added frozen state.
+Added commands for printing number of games and number of wins.
+Added some javadocs.

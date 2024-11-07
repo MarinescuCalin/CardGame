@@ -21,6 +21,9 @@ public abstract class Card {
     protected final String name;
 
     @Setter
+    protected boolean frozen;
+
+    @Setter
     protected boolean alreadyAttacked;
 
     public Card(final CardInput cardInput) {
@@ -29,7 +32,9 @@ public abstract class Card {
         health = cardInput.getHealth();
         description = cardInput.getDescription();
         name = cardInput.getName();
+
         alreadyAttacked = false;
+        frozen = false;
 
         colors = new ArrayList<>();
         for (String color : cardInput.getColors()) {
@@ -37,10 +42,25 @@ public abstract class Card {
         }
     }
 
+    public Card(final Card card) {
+        mana = card.mana;
+        attack = card.attack;
+        health = card.health;
+        description = card.description;
+        name = card.name;
+
+        alreadyAttacked = false;
+        frozen = false;
+
+        colors = new ArrayList<>();
+        colors.addAll(card.getColors());
+    }
+
     public void decreaseAttack(final int noAttack) {
         attack -= noAttack;
-        if (attack < 0)
+        if (attack < 0) {
             attack = 0;
+        }
     }
 
     public void decreaseHealth(final int noHealth) {

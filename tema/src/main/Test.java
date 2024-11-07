@@ -30,6 +30,7 @@ public final class Test {
 
             Scanner scanner = new Scanner(System.in);
             String fileName = scanner.next();
+            int idx = 0;
             for (File file : inputDir) {
                 if (file.getName().equalsIgnoreCase(fileName)) {
                     Main.action(file.getName(), CheckerConstants.OUT_FILE);

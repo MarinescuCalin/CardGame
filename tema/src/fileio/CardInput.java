@@ -1,7 +1,6 @@
 package fileio;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import card.Card;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -86,7 +85,7 @@ public final class CardInput {
         this.name = name;
     }
 
-    public ObjectNode toObjectNode(ObjectMapper objectMapper) {
+    public ObjectNode toObjectNode(final ObjectMapper objectMapper) {
         ObjectNode result = objectMapper.createObjectNode();
 
         result.put("mana", mana);

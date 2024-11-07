@@ -1,8 +1,4 @@
 [ {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
   "command" : "getCardsInHand",
   "playerIdx" : 2,
   "output" : [ {
@@ -72,16 +68,6 @@
     "colors" : [ "Black", "Red" ]
   }
 }, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
   "command" : "getCardsInHand",
   "playerIdx" : 2,
   "output" : [ {
@@ -135,7 +121,7 @@
   "playerIdx" : 1,
   "output" : {
     "mana" : 3,
-    "health" : 30,
+    "health" : 25,
     "description" : "Standard card: Absolute order, a soldier must devote his life to his General.",
     "name" : "General Kocioraw",
     "colors" : [ "Green", "Yellow" ]
@@ -145,37 +131,13 @@
   "playerIdx" : 2,
   "output" : {
     "mana" : 2,
-    "health" : 30,
+    "health" : 25,
     "description" : "Premium card: Her majesty rule is absolute, every non-believer will suffer.",
     "name" : "Empress Thorina",
     "colors" : [ "Black", "Red" ]
   }
 }, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
-}, {
-  "command" : "useAttackHero"
+  "gameEnded" : "Player two killed the enemy hero."
 }, {
   "command" : "getPlayerMana",
   "playerIdx" : 2,
